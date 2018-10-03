@@ -1,0 +1,19 @@
+<div class="container-fluid">
+	<span class="border-0">
+		<h1>Login to Cstor</h1>
+		<%= render partial: '/users/errors' %>
+
+		<%= form_for :session , :html => {:class => "form-horizontal"}, url: sessions_path do |f| %>
+		<div class="form-group">
+		<%= f.label :email, "Email:", class: "col-sm-2 control-label" %>
+		<%= f.text_field :email %><br>
+
+		</div>
+		<div class="form-group">
+			<%= f.label :password, "Password:", class: "col-sm-2 control-label" %>
+			<%= f.password_field :password %><br>
+		</div>
+		<%= f.submit "Login" %>
+		<% end %>
+	</span>
+</div>

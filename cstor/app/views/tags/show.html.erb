@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <h2> Cstor | <%= @tag.name.capitalize %> </h2>
+  <hr>
+
+
+<!-- pagination here?
+-->
+
+Tags:<%= render partial: "tags/tagmenu" %><br><br>
+
+  <div class="panel panel-info">
+    <% @resources.each do |resource| %>
+    <% if resource.viewable_by_student? %>
+    <div class="panel-heading">
+      <h3 class="panel-title"><a href="/resources/<%= resource.id%>"><%= resource.title %></a> </h3>
+
+    </div>
+    <div class="panel-body">
+      <p> <%= resource.abstract %> </p>
+      <p> <em><%= resource.teacher.username %></em> </p>
+
+      <% if !resource.likers.include?(current_user)%>
+
+      <%= form_for :like, url: "/resources/#{resource.id}/likes" do |f| %>
+      <%= f.submit "Like" %>
+      <% end %>
+
+      <% else %>
+
+      <% if resource.like_by_user(current_user) != nil %>
+      <%= form_for [resource, resource.like_by_user(current_user)], method: :delete do |f| %>
+      <%= f.submit "Unlike" %>
+      <% end %>
+      <% end %>
+      <% end %>
+
+    </div>
+    <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<div class= "container-fluid"
+<% Tag.all.each do |tag| %>
+  <button><%= link_to tag.name, tag_path(tag) %></button>
+<% end %>
+</div>

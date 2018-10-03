@@ -1,0 +1,37 @@
+<div class="container-fluid">
+	<%= render partial: '/users/errors' %>
+
+	<%=form_for @resource,:html => {:class => "form-horizontal"} do |f| %>
+
+ <div class="form-group">
+  <%= f.label :title, class: "col-sm-2 control-label" %><br>
+  <%= f.text_field :title, class: 'form-inline'  %>
+</div>
+
+<div class="form-group">
+  <%=f.label :abstract, class: "col-sm-2 control-label"%><br>
+  <%= f.text_area :abstract, class: 'form-inline'  %>
+</div>
+
+<div class="form-group">
+  <%= f.label :url, class: "col-sm-2 control-label" %><br>
+  <%= f.text_field :url, class: 'form-inline'  %>
+</div>
+
+<div class="form-group">
+  <%= f.check_box :teacher_only, class: 'form-inline'  %>
+  <%= f.label :teacher_only, "Teachers Only", class: "col-sm-2 control-label" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :tags, class: "col-sm-2 control-label" %> <small>(separate by commas)</small> <br>
+  <input id="resource_tag" name="resource[tag]" type="text">
+</div>
+
+<div class="form-group">
+  <%= f.label "Submit", class: "col-sm-2 control-label" %><br>
+  <%= f.submit %>
+</div>
+
+<% end %>
+</div>

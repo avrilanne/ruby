@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="panel panel-info">
+   <div class="panel-heading">
+<h3 class="panel-title"><%= @resource.title.capitalize %> </h3>
+   </div>
+<% @tags.each do |tag| %>
+<button><%= link_to tag.name, tag_path(tag) %></button>
+<% end %>
+<hr>
+<p>
+<div class="panel-body">
+  <b>Abstract:</b><br>
+  <p><%= @resource.abstract %> </p>
+  <p>
+    <b>Link:</b><br>
+    <a href="<%= @resource.url %>"><%= @resource.url%> </a>
+  </p>
+  <p> <b>Author:</b> <em><%= @resource.teacher.username %></em> </p>
+
+  <p> added on: <%=@resource.created_at.strftime("%m-%d-%Y")  %></p>
+
+<% if current_user && current_user.admin %>
+  <%= form_for @resource, method: :delete do |f| %>
+  <%= f.submit "Delete" %>
+  <% end %>
+
+<%= link_to 'Update Resource', edit_resource_path %>
+<% end  %>
+</div>
+</div>
+
