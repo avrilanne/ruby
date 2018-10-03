@@ -1,0 +1,30 @@
+%h2
+  #{@league.name}
+- @league.people.each_with_index do |person, index|
+  %table
+    %tr
+      %td{class: 'ordinal'}= index
+      %td{class: "text-left"}=link_to(person.name, person_path(person.id))
+  %br
+
+- if @events.length > 0
+  %h2
+    EVENTS participated in
+  - @events.each_with_index do |event, index|
+    %table
+      %tr
+        %td{class: 'ordinal'}= index
+
+        %td{class: "text-left"}=link_to(event.name, league_event_path(league_id: @league.id, id: event.id))
+    %br
+
+%br
+%br
+%br
+%br
+%br
+%h3
+  %a= link_to('HOME', root_path, class: 'btn btn-default')
+  = link_to('ALL EVENTS ', events_path, class: 'btn btn-default button-link')
+  = link_to('OTHER LEAGUES', leagues_path, class: 'btn btn-default button-link')
+/ TO

@@ -1,0 +1,47 @@
+%h1{class: 'text-center'}= "WEIGH-IN #{@event.name}"
+%h2{class: 'text-center'}= @event.tagline
+%div{class: 'table-container'}
+- if @league
+  %h4
+  League: #{@league}
+  %h6
+  =link_to("View all participant leaderboard", event_path(@event.id))
+%table{border: 0, class: 'table table-condensed borderless'}
+  %tr
+    %th{class: 'ordinal'}
+    %th{class: 'text-left person-name'} NAME
+    %th{class: 'text-left person-league'} LEAGUE
+    %th{:'data-field' => 'up_by', :'data-sortable' => 'true', class: 'text-right weight'} UP BY
+  - previous_score = nil
+  - index = 0
+  - people_with_current_rank = 1
+  - @participants.sort_by{|p| p.up_by(@event) || -1000 }.reverse.each do |person|
+    - up_by = person&.up_by(@event)
+    - positive = up_by.to_f > 0 ? 'positive' : 'negative'
+    %tr
+      - percentage_change = person.try(:percentage_change)
+      - if up_by.to_f == previous_score.to_f
+        - people_with_current_rank += 1
+      - else
+        - index += people_with_current_rank
+        - people_with_current_rank = 1
+      - previous_score = up_by
+      %td{class: 'ordinal'}= up_by ? index : nil
+      %td{class: 'person-name'}= link_to(person.name.upcase, person_path(person))
+      - if person.league
+        %td{class: 'person-league'}= link_to(person.league.name.upcase, league_path(person.league))
+      - else
+        %td{class: 'person-league'}= "NONE"
+      - percent_text = up_by && percentage_change ? "(#{percentage_change.round(2)}%)" : ""
+      %td{class: "#{positive} text-right weight"}= "#{up_by.try(:round, 3)} #{percent_text}"
+
+%br
+%br
+%br
+%br
+%br
+
+
+= link_to('CHECK IN', new_checkin_path, class: 'btn btn-default button-link') unless ENV['QUIET_MODE']
+= link_to('OTHER EVENTS', events_path, class: 'btn btn-default button-link')
+= link_to('LEAGUES', leagues_path, class: 'btn btn-default button-link')
